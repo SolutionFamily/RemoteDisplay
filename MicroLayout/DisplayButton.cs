@@ -5,6 +5,8 @@ namespace MicroLayout;
 
 public class DisplayButton : ClickableDisplayControl
 {
+    private const int ButtonDepth = 3; // TODO: make this settable?
+
     public Color ForeColor { get; set; }
     public Color PressedColor { get; set; }
     public Color HighlightColor { get; set; }
@@ -12,6 +14,7 @@ public class DisplayButton : ClickableDisplayControl
     public Color TextColor { get; set; }
 
     public string Text { get; set; }
+    public Image? Image { get; set; }
 
     public DisplayButton(int left, int top, int width, int height, DisplayTheme? theme = null)
         : base(left, top, width, height)
@@ -28,7 +31,7 @@ public class DisplayButton : ClickableDisplayControl
 
     public override void Draw(MicroGraphics graphics)
     {
-        graphics.Stroke = 3;
+        graphics.Stroke = ButtonDepth;
 
         if (Pressed)
         {
@@ -40,9 +43,13 @@ public class DisplayButton : ClickableDisplayControl
             graphics.DrawHorizontalLine(Left, Bottom, Width, HighlightColor);
             graphics.DrawVerticalLine(Right, Top, Height, HighlightColor);
 
-            if (!string.IsNullOrEmpty(Text))
+            if (Image != null) // image always wins over text
             {
-                graphics.DrawText(Left + 2 + this.Width / 2, Top + 2 + this.Height / 2, Text, TextColor, alignmentH: HorizontalAlignment.Center, alignmentV: VerticalAlignment.Center);
+                graphics.DrawImage(Left + this.Width / 2 + ButtonDepth, Top + this.Height / 2 + ButtonDepth, Image);
+            }
+            else if (!string.IsNullOrEmpty(Text))
+            {
+                graphics.DrawText(Left + ButtonDepth + this.Width / 2, Top + ButtonDepth + this.Height / 2, Text, TextColor, alignmentH: HorizontalAlignment.Center, alignmentV: VerticalAlignment.Center);
             }
         }
         else
@@ -55,7 +62,11 @@ public class DisplayButton : ClickableDisplayControl
             graphics.DrawHorizontalLine(Left, Bottom, Width, ShadowColor);
             graphics.DrawVerticalLine(Right, Top, Height, ShadowColor);
 
-            if (!string.IsNullOrEmpty(Text))
+            if (Image != null) // image always wins over text
+            {
+                graphics.DrawImage(Left + this.Width / 2, Top + this.Height / 2, Image);
+            }
+            else if (!string.IsNullOrEmpty(Text))
             {
                 graphics.DrawText(Left + this.Width / 2, Top + this.Height / 2, Text, TextColor, alignmentH: HorizontalAlignment.Center, alignmentV: VerticalAlignment.Center);
             }

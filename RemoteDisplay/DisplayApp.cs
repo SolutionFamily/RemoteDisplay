@@ -33,10 +33,11 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
         b3.Text = "Button 3";
 
         var up = new DisplayButton(425, 5, 50, 60, theme);
-        up.Text = "up";
+        up.Image = Image.LoadFromResource("up.bmp");
         up.Clicked += Up_Clicked;
+
         var down = new DisplayButton(425, 255, 50, 60, theme);
-        down.Text = "dn";
+        down.Image = Image.LoadFromResource("down.bmp");
         down.Clicked += Down_Clicked;
 
         b1.Clicked += OnButtonClicked;

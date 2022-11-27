@@ -9,11 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="down.bmp" />
+    <None Remove="up.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\wilderness\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroGraphics\Driver\Graphics.MicroGraphics.csproj" />
     <ProjectReference Include="..\..\..\wilderness\Meadow.Linux\src\gtk\Meadow.Gtk.csproj" />
     <ProjectReference Include="..\..\..\wilderness\Meadow.Linux\src\lib\Meadow.Linux.csproj" />
     <ProjectReference Include="..\..\..\wilderness\Meadow.Simulation\src\Meadow.Simulation\Meadow.Simulation.csproj" />
     <ProjectReference Include="..\MicroLayout\MicroLayout.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="down.bmp" />
+    <EmbeddedResource Include="up.bmp" />
   </ItemGroup>
 
 </Project>
