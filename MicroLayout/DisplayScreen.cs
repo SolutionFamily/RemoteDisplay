@@ -1,8 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Meadow;
+﻿using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
-using Meadow.Graphics;
+using Meadow.Hardware;
+using System.Collections.Generic;
+using System.Threading;
+
+namespace MicroLayout;
 
 public class DisplayScreen
 {
@@ -24,7 +27,6 @@ public class DisplayScreen
         {
             _touchScreen.TouchDown += _touchScreen_TouchDown;
             _touchScreen.TouchUp += _touchScreen_TouchUp;
-            _touchScreen.TouchClick += _touchScreen_TouchClick;
         }
 
         if (theme?.Font != null)
@@ -63,11 +65,6 @@ public class DisplayScreen
                 }
             }
         }
-    }
-
-    private void _touchScreen_TouchClick(int x, int y)
-    {
-
     }
 
     private void DrawLoop()

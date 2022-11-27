@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\..\wilderness\Meadow.Linux\src\gtk\Meadow.Gtk.csproj" />
     <ProjectReference Include="..\..\..\wilderness\Meadow.Linux\src\lib\Meadow.Linux.csproj" />
     <ProjectReference Include="..\..\..\wilderness\Meadow.Simulation\src\Meadow.Simulation\Meadow.Simulation.csproj" />
+    <ProjectReference Include="..\MicroLayout\MicroLayout.csproj" />
   </ItemGroup>
 
 </Project>

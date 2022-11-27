@@ -3,6 +3,7 @@ using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Graphics;
 using Meadow.Simulation;
+using MicroLayout;
 
 public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
 {
@@ -24,10 +25,19 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
             Font = new Font12x20()
         };
 
-        var b1 = new DisplayButton(5, 5, _display.Width - 10, 150, theme);
+        var b1 = new DisplayButton(5, 5, _display.Width - 65, 100, theme);
         b1.Text = "Button 1";
-        var b2 = new DisplayButton(5, 160, _display.Width - 10, 150, theme);
+        var b2 = new DisplayButton(5, 110, _display.Width - 65, 100, theme);
         b2.Text = "Button 2";
+        var b3 = new DisplayButton(5, 215, _display.Width - 65, 100, theme);
+        b3.Text = "Button 3";
+
+        var up = new DisplayButton(425, 5, 50, 60, theme);
+        up.Text = "up";
+        up.Clicked += Up_Clicked;
+        var down = new DisplayButton(425, 255, 50, 60, theme);
+        down.Text = "dn";
+        down.Clicked += Down_Clicked;
 
         b1.Clicked += OnButtonClicked;
         b2.Clicked += OnButtonClicked;
@@ -36,8 +46,26 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
 
         _screen.Controls.Add(b1);
         _screen.Controls.Add(b2);
+        _screen.Controls.Add(b3);
+        _screen.Controls.Add(up);
+        _screen.Controls.Add(down);
 
         return Task.CompletedTask;
+    }
+
+    private int top = 1;
+
+    private void Down_Clicked(object? sender, EventArgs e)
+    {
+        top++;
+    }
+
+    private void Up_Clicked(object? sender, EventArgs e)
+    {
+        if (top > 1)
+        {
+            top--;
+        }
     }
 
     private void OnButtonClicked(object? sender, EventArgs e)

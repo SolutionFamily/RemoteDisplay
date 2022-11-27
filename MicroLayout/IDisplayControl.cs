@@ -1,5 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Meadow.Foundation.Graphics;
+﻿using Meadow.Foundation.Graphics;
+
+namespace MicroLayout;
 
 public interface IDisplayControl
 {

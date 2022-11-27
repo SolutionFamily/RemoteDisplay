@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteDisplay", "RemoteDisplay\RemoteDisplay.csproj", "{C3791BC3-8C4C-4607-98BA-0241258EBB50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteDisplay", "RemoteDisplay\RemoteDisplay.csproj", "{C3791BC3-8C4C-4607-98BA-0241258EBB50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Linux", "..\..\wilderness\Meadow.Linux\src\lib\Meadow.Linux.csproj", "{93D58B99-536B-4239-B98A-5A101B3BEF57}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet", "..\..\wilderness\MQTTnet\Source\MQTTnet\MQTTnet.csproj", "{E48FD7DE-436A-44C3-AAD1-D1DE95E2C15D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\wilderness\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj", "{CAEC84C2-46E3-46C7-BC77-BA7587E9B214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroLayout", "MicroLayout\MicroLayout.csproj", "{378B118B-63A6-4068-93FE-80213B37F845}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{CAEC84C2-46E3-46C7-BC77-BA7587E9B214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAEC84C2-46E3-46C7-BC77-BA7587E9B214}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CAEC84C2-46E3-46C7-BC77-BA7587E9B214}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{378B118B-63A6-4068-93FE-80213B37F845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378B118B-63A6-4068-93FE-80213B37F845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378B118B-63A6-4068-93FE-80213B37F845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378B118B-63A6-4068-93FE-80213B37F845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

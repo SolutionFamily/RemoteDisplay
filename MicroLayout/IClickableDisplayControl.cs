@@ -1,4 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System;
+
+namespace MicroLayout;
+
 public interface IClickableDisplayControl : IDisplayControl
 {
     public event EventHandler Clicked;

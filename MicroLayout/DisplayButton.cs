@@ -1,6 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Meadow.Foundation;
+﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+
+namespace MicroLayout;
 
 public class DisplayButton : ClickableDisplayControl
 {
