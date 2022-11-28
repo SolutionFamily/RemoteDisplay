@@ -5,6 +5,30 @@ using Meadow.Graphics;
 using Meadow.Simulation;
 using MicroLayout;
 
+public record MenuButton
+{
+    public string Text { get; set; }
+    public int ID { get; set; }
+    public bool Enabled { get; set; }
+}
+
+public record MenuState
+{
+    public MenuButton Up { get; set; }
+    public MenuButton Down { get; set; }
+    public MenuButton Button1 { get; set; }
+    public MenuButton Button2 { get; set; }
+    public MenuButton Button3 { get; set; }
+}
+
+public class MenuRetrievalService
+{
+    public MenuState GetCurrentMenu()
+    {
+        return null;
+    }
+}
+
 public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
 {
     private DisplayScreen _screen = default!;
@@ -25,18 +49,22 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
             Font = new Font12x20()
         };
 
-        var b1 = new DisplayButton(5, 5, _display.Width - 65, 100, theme);
+        var title = new DisplayLabel(0, 0, _display.Width - 67, 30);
+        title.Text = "Downtime Reason";
+        title.ForeColor = Color.White;
+
+        var b1 = new DisplayButton(5, 36, _display.Width - 67, 90, theme);
         b1.Text = "Button 1";
-        var b2 = new DisplayButton(5, 110, _display.Width - 65, 100, theme);
+        var b2 = new DisplayButton(5, 131, _display.Width - 67, 90, theme);
         b2.Text = "Button 2";
-        var b3 = new DisplayButton(5, 215, _display.Width - 65, 100, theme);
+        var b3 = new DisplayButton(5, 226, _display.Width - 67, 90, theme);
         b3.Text = "Button 3";
 
-        var up = new DisplayButton(425, 5, 50, 60, theme);
+        var up = new DisplayButton(423, 5, 52, 80, theme);
         up.Image = Image.LoadFromResource("up.bmp");
         up.Clicked += Up_Clicked;
 
-        var down = new DisplayButton(425, 255, 50, 60, theme);
+        var down = new DisplayButton(423, 238, 52, 77, theme);
         down.Image = Image.LoadFromResource("down.bmp");
         down.Clicked += Down_Clicked;
 
@@ -45,6 +73,7 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
 
         _screen = new DisplayScreen(_display, _display, theme);
 
+        _screen.Controls.Add(title);
         _screen.Controls.Add(b1);
         _screen.Controls.Add(b2);
         _screen.Controls.Add(b3);

@@ -3,6 +3,7 @@ using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace MicroLayout;
@@ -73,14 +74,18 @@ public class DisplayScreen
         {
             Resolver.App.InvokeOnMainThread((_) =>
             {
-                _graphics.Clear(BackgrounColor);
-
-                foreach (var control in Controls)
+                if (Controls.Any(c => c.IsInvalid))
                 {
-                    control.Draw(_graphics);
-                }
+                    _graphics.Clear(BackgrounColor);
 
-                _graphics.Show();
+                    foreach (var control in Controls)
+                    {
+                        control.Invalidate();
+                        control.Refresh(_graphics);
+                    }
+
+                    _graphics.Show();
+                }
             });
 
             Thread.Sleep(50);

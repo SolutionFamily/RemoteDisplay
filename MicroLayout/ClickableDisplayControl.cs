@@ -19,6 +19,7 @@ public abstract class ClickableDisplayControl : DisplayControl, IClickableDispla
             {
                 Clicked?.Invoke(this, EventArgs.Empty);
             }
+            IsInvalid = true;
         }
     }
 

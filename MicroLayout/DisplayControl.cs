@@ -4,7 +4,26 @@ namespace MicroLayout;
 
 public abstract class DisplayControl : IDisplayControl
 {
-    public int Left { get; set; }
+    private int _left;
+
+    // TODO: allow region invalidation?
+    public bool IsInvalid { get; protected set; }
+
+    public void Invalidate()
+    {
+        IsInvalid = true;
+    }
+
+    public int Left
+    {
+        get => _left;
+        set
+        {
+            _left = value;
+            Invalidate();
+        }
+    }
+
     public int Top { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
@@ -22,7 +41,18 @@ public abstract class DisplayControl : IDisplayControl
         this.Top = top;
         this.Width = width;
         this.Height = height;
+
+        IsInvalid = true;
     }
 
-    public abstract void Draw(MicroGraphics graphics);
+    public void Refresh(MicroGraphics graphics)
+    {
+        if (IsInvalid)
+        {
+            OnDraw(graphics);
+            IsInvalid = false;
+        }
+    }
+
+    protected abstract void OnDraw(MicroGraphics graphics);
 }

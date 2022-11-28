@@ -29,7 +29,7 @@ public class DisplayButton : ClickableDisplayControl
         }
     }
 
-    public override void Draw(MicroGraphics graphics)
+    protected override void OnDraw(MicroGraphics graphics)
     {
         graphics.Stroke = ButtonDepth;
 
@@ -45,7 +45,7 @@ public class DisplayButton : ClickableDisplayControl
 
             if (Image != null) // image always wins over text
             {
-                graphics.DrawImage(Left + this.Width / 2 + ButtonDepth, Top + this.Height / 2 + ButtonDepth, Image);
+                graphics.DrawImage(Left + (this.Width - Image.Width) / 2 + ButtonDepth, Top + (this.Height - Image.Height) / 2 + ButtonDepth, Image);
             }
             else if (!string.IsNullOrEmpty(Text))
             {
@@ -64,7 +64,7 @@ public class DisplayButton : ClickableDisplayControl
 
             if (Image != null) // image always wins over text
             {
-                graphics.DrawImage(Left + this.Width / 2, Top + this.Height / 2, Image);
+                graphics.DrawImage(Left + (this.Width - Image.Width) / 2, Top + (this.Height - Image.Height) / 2, Image);
             }
             else if (!string.IsNullOrEmpty(Text))
             {

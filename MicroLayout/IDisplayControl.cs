@@ -8,7 +8,9 @@ public interface IDisplayControl
     public int Top { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    public void Draw(MicroGraphics graphics);
+    bool IsInvalid { get; }
+    public void Refresh(MicroGraphics graphics);
+    void Invalidate();
 
     public bool Contains(int x, int y)
     {
