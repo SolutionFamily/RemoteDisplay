@@ -5,37 +5,22 @@ using Meadow.Graphics;
 using Meadow.Simulation;
 using MicroLayout;
 
-public record MenuButton
-{
-    public string Text { get; set; }
-    public int ID { get; set; }
-    public bool Enabled { get; set; }
-}
-
-public record MenuState
-{
-    public MenuButton Up { get; set; }
-    public MenuButton Down { get; set; }
-    public MenuButton Button1 { get; set; }
-    public MenuButton Button2 { get; set; }
-    public MenuButton Button3 { get; set; }
-}
-
-public class MenuRetrievalService
-{
-    public MenuState GetCurrentMenu()
-    {
-        return null;
-    }
-}
-
 public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
 {
     private DisplayScreen _screen = default!;
     private GtkDisplay _display = default!;
 
+    private DisplayLabel title;
+    private DisplayButton b1;
+    private DisplayButton b2;
+    private DisplayButton b3;
+    private DisplayButton up;
+    private DisplayButton down;
+
     public override Task Initialize()
     {
+        Resolver.Services.Create<MenuRetrievalService>();
+
         // simulating the Adafruit display
         _display = new GtkDisplay(480, 320, ColorType.Format16bppRgb565);
 
@@ -49,27 +34,28 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
             Font = new Font12x20()
         };
 
-        var title = new DisplayLabel(0, 0, _display.Width - 67, 30);
-        title.Text = "Downtime Reason";
+        title = new DisplayLabel(0, 0, _display.Width - 67, 30);
+        title.Text = "[starting]";
         title.ForeColor = Color.White;
 
-        var b1 = new DisplayButton(5, 36, _display.Width - 67, 90, theme);
-        b1.Text = "Button 1";
-        var b2 = new DisplayButton(5, 131, _display.Width - 67, 90, theme);
-        b2.Text = "Button 2";
-        var b3 = new DisplayButton(5, 226, _display.Width - 67, 90, theme);
-        b3.Text = "Button 3";
+        b1 = new DisplayButton(5, 36, _display.Width - 67, 90, theme);
+        b1.Text = "[starting]";
+        b2 = new DisplayButton(5, 131, _display.Width - 67, 90, theme);
+        b2.Text = "[starting]";
+        b3 = new DisplayButton(5, 226, _display.Width - 67, 90, theme);
+        b3.Text = "[starting]";
 
-        var up = new DisplayButton(423, 5, 52, 80, theme);
+        up = new DisplayButton(423, 5, 52, 80, theme);
         up.Image = Image.LoadFromResource("up.bmp");
-        up.Clicked += Up_Clicked;
 
-        var down = new DisplayButton(423, 238, 52, 77, theme);
+        down = new DisplayButton(423, 238, 52, 77, theme);
         down.Image = Image.LoadFromResource("down.bmp");
-        down.Clicked += Down_Clicked;
 
         b1.Clicked += OnButtonClicked;
         b2.Clicked += OnButtonClicked;
+        b3.Clicked += OnButtonClicked;
+        up.Clicked += OnButtonClicked;
+        down.Clicked += OnButtonClicked;
 
         _screen = new DisplayScreen(_display, _display, theme);
 
@@ -80,27 +66,48 @@ public class DisplayApp : App<SimulatedMeadow<SimulatedPinout>>
         _screen.Controls.Add(up);
         _screen.Controls.Add(down);
 
+        RefreshMenu();
+
         return Task.CompletedTask;
     }
 
-    private int top = 1;
-
-    private void Down_Clicked(object? sender, EventArgs e)
+    private void RefreshMenu()
     {
-        top++;
-    }
-
-    private void Up_Clicked(object? sender, EventArgs e)
-    {
-        if (top > 1)
+        var menu = Resolver.Services.Get<MenuRetrievalService>()?.GetCurrentMenu();
+        if (menu != null)
         {
-            top--;
+            title.Text = menu.Title;
+
+            b1.Text = menu.Button1.Text;
+            b1.Context = menu.Button1.ID;
+
+            b2.Text = menu.Button2.Text;
+            b2.Context = menu.Button2.ID;
+
+            b3.Text = menu.Button3.Text;
+            b3.Context = menu.Button3.ID;
+
+            up.Context = menu.Up.ID;
+            up.Visible = menu.Up.Enabled;
+
+            down.Context = menu.Down.ID;
+            down.Visible = menu.Down.Enabled;
         }
     }
 
     private void OnButtonClicked(object? sender, EventArgs e)
     {
-        Resolver.Log.Info($"Button clicked!");
+        var b = sender as DisplayButton;
+        var id = (int)(b?.Context ?? 0);
+
+        if (id > 0)
+        {
+            Resolver.Log.Info($"Button {id} clicked!");
+        }
+
+        Resolver.Services.Get<MenuRetrievalService>()?.SendClick((int)(b?.Context ?? 0));
+
+        RefreshMenu();
     }
 
     public override Task Run()

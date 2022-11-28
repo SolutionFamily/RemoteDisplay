@@ -5,30 +5,14 @@ namespace MicroLayout;
 public abstract class DisplayControl : IDisplayControl
 {
     private int _left;
+    private int _top;
+    private int _width;
+    private int _height;
+    private bool _visible = true;
 
-    // TODO: allow region invalidation?
-    public bool IsInvalid { get; protected set; }
+    public bool IsInvalid { get; private set; }
 
-    public void Invalidate()
-    {
-        IsInvalid = true;
-    }
-
-    public int Left
-    {
-        get => _left;
-        set
-        {
-            _left = value;
-            Invalidate();
-        }
-    }
-
-    public int Top { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public int Bottom => Top + Height;
-    public int Right => Left + Width;
+    public object? Context { get; set; }
 
     public DisplayControl()
         : this(0, 0, 10, 10)
@@ -45,11 +29,59 @@ public abstract class DisplayControl : IDisplayControl
         IsInvalid = true;
     }
 
+    protected void SetInvalidatingProperty<T>(ref T field, T value)
+    {
+        field = value;
+        Invalidate();
+    }
+
+    // TODO: allow region invalidation?
+    public void Invalidate()
+    {
+        IsInvalid = true;
+    }
+
+    public bool Visible
+    {
+        get => _visible;
+        set => SetInvalidatingProperty(ref _visible, value);
+    }
+
+    public int Left
+    {
+        get => _left;
+        set => SetInvalidatingProperty(ref _left, value);
+    }
+
+    public int Top
+    {
+        get => _top;
+        set => SetInvalidatingProperty(ref _top, value);
+    }
+
+    public int Width
+    {
+        get => _width;
+        set => SetInvalidatingProperty(ref _width, value);
+    }
+
+    public int Height
+    {
+        get => _height;
+        set => SetInvalidatingProperty(ref _height, value);
+    }
+
+    public int Bottom => Top + Height;
+    public int Right => Left + Width;
+
     public void Refresh(MicroGraphics graphics)
     {
         if (IsInvalid)
         {
-            OnDraw(graphics);
+            if (Visible)
+            {
+                OnDraw(graphics);
+            }
             IsInvalid = false;
         }
     }

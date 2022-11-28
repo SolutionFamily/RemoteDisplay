@@ -12,7 +12,7 @@ public class DisplayScreen
 {
     public List<IDisplayControl> Controls { get; set; } = new List<IDisplayControl>();
 
-    public Color BackgrounColor { get; set; }
+    public Color BackgroundColor { get; set; }
 
     private IGraphicsDisplay _display;
     private MicroGraphics _graphics;
@@ -35,7 +35,7 @@ public class DisplayScreen
             _graphics.CurrentFont = theme.Font;
         }
 
-        BackgrounColor = theme?.BackgroundColor ?? Color.Black;
+        BackgroundColor = theme?.BackgroundColor ?? Color.Black;
 
         new Thread(DrawLoop).Start();
     }
@@ -76,10 +76,11 @@ public class DisplayScreen
             {
                 if (Controls.Any(c => c.IsInvalid))
                 {
-                    _graphics.Clear(BackgrounColor);
+                    _graphics.Clear(BackgroundColor);
 
                     foreach (var control in Controls)
                     {
+                        // until micrographics supports invalidating regions, we have to invalidate everything when one control needs updating
                         control.Invalidate();
                         control.Refresh(_graphics);
                     }

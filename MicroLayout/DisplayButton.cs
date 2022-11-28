@@ -6,6 +6,8 @@ namespace MicroLayout;
 public class DisplayButton : ClickableDisplayControl
 {
     private const int ButtonDepth = 3; // TODO: make this settable?
+    private string _text;
+    private Image? _image;
 
     public Color ForeColor { get; set; }
     public Color PressedColor { get; set; }
@@ -13,8 +15,17 @@ public class DisplayButton : ClickableDisplayControl
     public Color ShadowColor { get; set; }
     public Color TextColor { get; set; }
 
-    public string Text { get; set; }
-    public Image? Image { get; set; }
+    public string Text
+    {
+        get => _text;
+        set => SetInvalidatingProperty(ref _text, value);
+    }
+
+    public Image? Image
+    {
+        get => _image;
+        set => SetInvalidatingProperty(ref _image, value);
+    }
 
     public DisplayButton(int left, int top, int width, int height, DisplayTheme? theme = null)
         : base(left, top, width, height)

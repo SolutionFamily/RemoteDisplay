@@ -13,13 +13,15 @@ public abstract class ClickableDisplayControl : DisplayControl, IClickableDispla
         get => _pressed;
         set
         {
+            if (!Visible) return;
             if (_pressed == value) return;
+
             _pressed = value;
             if (!Pressed)
             {
                 Clicked?.Invoke(this, EventArgs.Empty);
             }
-            IsInvalid = true;
+            Invalidate();
         }
     }
 
