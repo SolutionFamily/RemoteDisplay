@@ -5,9 +5,9 @@ namespace MicroLayout;
 
 public class DisplayLabel : DisplayControl
 {
-    public Color ForeColor { get; set; }
-    public Color BackColor { get; set; } = Color.Transparent;
-    public string Text { get; set; }
+    private string _text;
+    private Color _foreColor = Color.White;
+    private Color _backColor = Color.Transparent;
 
     public DisplayLabel(int left, int top, int width, int height, DisplayTheme? theme = null)
         : base(left, top, width, height)
@@ -16,6 +16,24 @@ public class DisplayLabel : DisplayControl
         {
             this.ForeColor = theme.ForeColor;
         }
+    }
+
+    public Color ForeColor
+    {
+        get => _foreColor;
+        set => SetInvalidatingProperty(ref _foreColor, value);
+    }
+
+    public Color BackColor
+    {
+        get => _backColor;
+        set => SetInvalidatingProperty(ref _backColor, value);
+    }
+
+    public string Text
+    {
+        get => _text;
+        set => SetInvalidatingProperty(ref _text, value);
     }
 
     protected override void OnDraw(MicroGraphics graphics)
