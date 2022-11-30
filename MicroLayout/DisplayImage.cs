@@ -3,21 +3,28 @@ using Meadow.Foundation.Graphics;
 
 namespace MicroLayout;
 
-public class DisplayLabel : DisplayControl
+public class DisplayImage : DisplayControl
 {
-    private string _text;
-    private Color _foreColor = Color.White;
     private Color _backColor = Color.Transparent;
     private VerticalAlignment _verticalAlignment = VerticalAlignment.Center;
     private HorizontalAlignment _horizontalAlignment;
+    private Image _image;
 
-    public DisplayLabel(int left, int top, int width, int height, DisplayTheme? theme = null)
+    public DisplayImage(int left, int top, int width, int height, Image image, DisplayTheme? theme = null)
         : base(left, top, width, height)
     {
+        this.Image = image;
+
         if (theme != null)
         {
-            this.ForeColor = theme.ForeColor;
+            this.BackColor = theme.ForeColor;
         }
+    }
+
+    public Meadow.Foundation.Graphics.Image Image
+    {
+        get => _image;
+        set => SetInvalidatingProperty(ref _image, value);
     }
 
     public VerticalAlignment VerticalAlignment
@@ -32,22 +39,10 @@ public class DisplayLabel : DisplayControl
         set => SetInvalidatingProperty(ref _horizontalAlignment, value);
     }
 
-    public Color ForeColor
-    {
-        get => _foreColor;
-        set => SetInvalidatingProperty(ref _foreColor, value);
-    }
-
     public Color BackColor
     {
         get => _backColor;
         set => SetInvalidatingProperty(ref _backColor, value);
-    }
-
-    public string Text
-    {
-        get => _text;
-        set => SetInvalidatingProperty(ref _text, value);
     }
 
     protected override void OnDraw(MicroGraphics graphics)
@@ -57,6 +52,6 @@ public class DisplayLabel : DisplayControl
             graphics.DrawRectangle(Left, Top, Width, Height, BackColor, true);
         }
 
-        graphics.DrawText(Left + this.Width / 2, Top + this.Height / 2, Text, ForeColor, alignmentH: HorizontalAlignment, alignmentV: VerticalAlignment);
+        graphics.DrawImage(Left + (this.Width - Image.Width) / 2, Top + (this.Height - Image.Height) / 2, Image);
     }
 }
